@@ -7,39 +7,43 @@
 //
 
 #import "GameScene.h"
+#import "TPPlane.h"
+
+@interface GameScene ()
+
+@property (nonatomic) TPPlane *player;
+@property (nonatomic) SKNode *world;
+
+@end
 
 @implementation GameScene
 
+
 -(void)didMoveToView:(SKView *)view {
     /* Setup your scene here */
-    SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     
-    myLabel.text = @"Hello, World!";
-    myLabel.fontSize = 65;
-    myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-                                   CGRectGetMidY(self.frame));
+    // Leaving this here as an example of how to correctly print out the screen size.
+    NSLog(@"Size: %@", NSStringFromCGSize(self.size));
+
     
-    [self addChild:myLabel];
+    // Setup world
+    _world = [SKNode node];
+    [self addChild:_world];
+    
+    // Setup player
+    _player = [[TPPlane alloc] init];
+    _player.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.5);
+    [_world addChild:_player];
+
+    
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     /* Called when a touch begins */
+   
     
-    for (UITouch *touch in touches) {
-        CGPoint location = [touch locationInNode:self];
-        
-        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
-        
-        sprite.xScale = 0.5;
-        sprite.yScale = 0.5;
-        sprite.position = location;
-        
-        SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
-        
-        [sprite runAction:[SKAction repeatActionForever:action]];
-        
-        [self addChild:sprite];
-    }
+    
+   
 }
 
 -(void)update:(CFTimeInterval)currentTime {

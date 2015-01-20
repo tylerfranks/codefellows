@@ -33,20 +33,36 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+}
 
+// Creating this so that the width and height of the scene are correct
+-  (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    
     // Configure the view.
-    SKView * skView = (SKView *)self.view;
-    skView.showsFPS = YES;
-    skView.showsNodeCount = YES;
-    /* Sprite Kit applies additional optimizations to improve rendering performance */
-    skView.ignoresSiblingOrder = YES;
-    
-    // Create and configure the scene.
-    GameScene *scene = [GameScene unarchiveFromFile:@"GameScene"];
-    scene.scaleMode = SKSceneScaleModeAspectFill;
-    
-    // Present the scene.
-    [skView presentScene:scene];
+        SKView * skView = (SKView *)self.view;
+        if (!skView.scene) {
+            skView.showsFPS = YES;
+            skView.showsNodeCount = YES;
+            skView.showsDrawCount = YES;
+            /* Sprite Kit applies additional optimizations to improve rendering performance */
+            skView.ignoresSiblingOrder = NO;
+            
+            
+            // Create and configure the scene.
+            GameScene *scene = [GameScene unarchiveFromFile:@"GameScene"];
+            scene.scaleMode = SKSceneScaleModeAspectFill;
+            
+            // Swapping the heigth and width
+            CGRect screenRect = [[UIScreen mainScreen] bounds];
+            float landscapeWidth = screenRect.size.height;
+            float landscapeHeight = screenRect.size.width;
+            
+            // Present the scene.
+            [skView presentScene:scene];
+    }
 }
 
 - (BOOL)shouldAutorotate
